@@ -18,3 +18,26 @@
 syntax = "proto3";
 
 package axiom_databases;
+
+// A parameterised SQL SELECT query request.
+message QueryRequest {
+  // The SQL query template. Use $1, $2, ... for positional parameters.
+  // Only SELECT statements are permitted.
+  string query_template = 1;
+  // Positional parameter values corresponding to $1, $2, etc.
+  repeated string params = 2;
+}
+
+// A single row of query results.
+message Row {
+  // The string-serialised values for each column in this row.
+  repeated string values = 1;
+}
+
+// The result of a SQL query.
+message QueryResult {
+  // The column names in the order they appear in each row.
+  repeated string columns = 1;
+  // The result rows.
+  repeated Row rows = 2;
+}

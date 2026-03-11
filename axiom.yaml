@@ -1,12 +1,13 @@
 name: axiom-databases
 version: 0.1.0
 language: python
-
-# nodes:
-#   - name: MyNode
-#     input: MyInput
-#     output: MyOutput
-#     # required_secrets lists the secret names this node reads via axiom.Secrets.
-#     # These are validated during publish and shown in the marketplace.
-#     # required_secrets:
-#     #   - MY_API_KEY
+description: Database nodes for executing parameterised SQL queries against a Postgres database.
+author: Axiom
+license: MIT
+nodes:
+    - name: SQLQueryNode
+      input: QueryRequest
+      output: QueryResult
+      description: Executes a parameterised SELECT query against a Postgres database and returns the result rows.
+      required_secrets:
+        - DATABASE_URL
