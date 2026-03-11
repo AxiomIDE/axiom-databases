@@ -1,0 +1,12 @@
+name: axiom-databases
+version: 0.1.0
+language: python
+
+# nodes:
+#   - name: MyNode
+#     input: MyInput
+#     output: MyOutput
+#     # required_secrets lists the secret names this node reads via axiom.Secrets.
+#     # These are validated during publish and shown in the marketplace.
+#     # required_secrets:
+#     #   - MY_API_KEY
