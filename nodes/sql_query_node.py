@@ -21,7 +21,7 @@ def _get_pool(database_url: str):
     return _pool_cache[database_url]
 
 
-def s_q_l_query_node(log: AxiomLogger, secrets: AxiomSecrets, input: QueryRequest) -> QueryResult:
+def sql_query_node(log: AxiomLogger, secrets: AxiomSecrets, input: QueryRequest) -> QueryResult:
     """Executes a parameterised SELECT query against a Postgres database and returns the result rows.
 
     Reads DATABASE_URL from secrets. Only SELECT statements are permitted — any
@@ -33,15 +33,15 @@ def s_q_l_query_node(log: AxiomLogger, secrets: AxiomSecrets, input: QueryReques
     """
     database_url, ok = secrets.get("DATABASE_URL")
     if not ok:
-        log.error("s_q_l_query_node: DATABASE_URL secret not found")
+        log.error("sql_query_node: DATABASE_URL secret not found")
         return QueryResult(columns=[], rows=[])
 
     query = input.query_template.strip()
     if not query.upper().startswith("SELECT"):
-        log.error("s_q_l_query_node: only SELECT statements are permitted", query_prefix=query[:20])
+        log.error("sql_query_node: only SELECT statements are permitted", query_prefix=query[:20])
         return QueryResult(columns=[], rows=[])
 
-    log.info("s_q_l_query_node: executing query", params=len(input.params))
+    log.info("sql_query_node: executing query", params=len(input.params))
 
     pool = _get_pool(database_url)
     conn = pool.getconn()
@@ -54,5 +54,5 @@ def s_q_l_query_node(log: AxiomLogger, secrets: AxiomSecrets, input: QueryReques
         pool.putconn(conn)
 
     rows = [Row(values=[str(v) if v is not None else "" for v in row]) for row in raw_rows]
-    log.info("s_q_l_query_node: done", columns=len(columns), rows=len(rows))
+    log.info("sql_query_node: done", columns=len(columns), rows=len(rows))
     return QueryResult(columns=columns, rows=rows)
