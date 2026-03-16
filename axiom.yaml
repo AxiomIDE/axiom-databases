@@ -1,4 +1,4 @@
-name: axiom-databases
+name: christian/axiom-databases
 version: 0.1.0
 language: python
 description: Database nodes for executing parameterised SQL queries against a Postgres database.
